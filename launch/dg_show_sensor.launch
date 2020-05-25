@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find dg_cart_ros)/launch/dg_run_sensor.launch" />
+
+  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find dg_cart_ros)/rviz/dg_show_sensor.rviz" />
+</launch>

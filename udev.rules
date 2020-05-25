@@ -1,0 +1,14 @@
+# Logitech cameras
+SUBSYSTEM=="video4linux", ATTRS{idVendor}=="046d", ATTR{index}=="0", MODE="0666", SYMLINK+="videoLGT0"
+
+# Intel RealSense cameras
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="8086", MODE="0666"
+
+# XSens IMUs
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2639", MODE="0666", SYMLINK+="ttyIMU0"
+
+# Ascen Korea GPS receivers
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1546", MODE="0666", SYMLINK+="ttyGPS0"
+
+# Novatel GPS receivers
+SUBSYSTEM=="tty", ATTRS{idVendor}=="09d7", MODE="0666", SYMLINK+="ttyNVT0"

@@ -1,0 +1,48 @@
+<launch>
+  <!-- Logitech C930e -->
+  <group ns="uvc_camera">
+    <node name="uvc_camera" pkg="uvc_camera" type="uvc_camera_node" output="screen">
+      <param name="device"          value="/dev/videoLGT0" />
+      <param name="camera_info_url" value="logitech_c930e.yaml" />
+      <param name="width"           value="1280" />
+      <param name="height"          value="720" />
+      <param name="fps"             value="30" />
+      <param name="frame"           value="wide_stereo" />
+      <param name="auto_focus"      value="False" />
+      <param name="focus_absolute"  value="0" />
+      <!-- Other supported params: auto_exposure, exposure_absolute, brightness, ... -->
+    </node>
+  </group>
+
+  <!-- Intel RealSense D435i -->
+  <group ns="realsense">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+      <arg name="tf_prefix" value="realsense" />
+    </include>
+  </group>
+
+  <!-- XSens MTi-30 -->
+  <group ns="xsens_imu">
+    <node name="xsens_imu" pkg="xsens_driver" type="mtnode.py" output="screen">
+      <remap from="imu"     to="/" />
+      <param name="device"   value="/dev/ttyIMU0" />
+      <param name="frame_id" value="/map" />
+    </node>
+  </group>
+
+  <!-- Ascen Korea GPS-620 -->
+  <group ns="ascen_gps">
+    <node name="ascen_gps" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen">
+      <param name="port"     value="/dev/ttyGPS0" />
+      <param name="baud"     value="9600" />
+      <param name="frame_id" value="/ascen_gps" />
+    </node>
+  </group>
+
+  <!-- Novatel GPS Receiver -->
+  <group ns="novatel_gps">
+    <node name="novatel_gps" pkg="novatel_gps_driver" type="novatel_gps_node" output="screen">
+      <param name="device" value="/dev/ttyNVT0" />
+    </node>
+  </group>
+</launch>

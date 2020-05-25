@@ -1,0 +1,9 @@
+<launch>
+  <arg name="bag_path" default="$(env HOME)/" />
+
+  <include file="$(find dg_cart_ros)/launch/dg_run_sensor.launch" />
+
+  <node name="rosbag_record" pkg="rosbag" type="record" args="-o $(arg bag_path) /uvc_camera/image_raw /realsense/color/image_raw realsense/depth/image_rect_raw /xsens_imu/imu/data /ascen_gps/fix /novatel_gps/fix" />
+
+  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find dg_cart_ros)/rviz/dg_show_sensor.rviz" />
+</launch>
