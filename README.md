@@ -3,7 +3,7 @@ DeepGuider Cart for ROS (shortly _dg\_cart\_ros_) is a mobile platform for [Deep
 
 ### Mobile and Computing Platforms
 * Mobile platform: CareLine [Nadri 500](http://www.care-line.co.kr/H-R-careline/scooter/nadri500.php)
-  * Maximum velocity: 15 km/h (~ 4.2 m/s)
+  * Maximum velocity: 15 km/hr (~ 4.2 m/s)
   * Maximum climbing angle: 10 deg
   * Battery capacity: 64 AH (mileage: 35 km)
 * Computing board: Gigabyte [Aero 15 OLED XA](https://www.notebookcheck.net/Gigabyte-Aero-15-XA-Laptop-Review-With-OLED-panel-and-4K-in-a-new-design.428407.0.html)
@@ -19,7 +19,7 @@ DeepGuider Cart for ROS (shortly _dg\_cart\_ros_) is a mobile platform for [Deep
   * IMU: 3 DoF accleration ($\pm$4 g), 3 DoF gyroscope ($\pm$1000 deg/s)
 * Spherical camera: Ricoh [Theta S](https://theta360.com/)
 * IMU/AHRS: Xsens [MTi-30](https://www.xsens.com/products/mti-10-series) ([xsens\_driver](http://wiki.ros.org/xsens_driver))
-  * Gyro bias stability: 18 deg/h
+  * Gyro bias stability: 18 deg/hr
   * Roll/Pitch accuracy: Static 0.2 deg, dynamic 0.5 deg
   * Yaw accuracy: 1.0 deg
 * GPS receiver: Ascen Korea [GPS620](http://freenavi.co.kr/product/detail.html?product_no=38) ([nmea\_navsat\_driver](http://wiki.ros.org/nmea_navsat_driver))
@@ -46,7 +46,8 @@ If you don't have a ROS workspace, please make it as the following. You can chan
 
 If you can run the following to add `dg_ws` to `ROS_PACKAGE_PATH`.
 * `echo "source ~/dg_ws/install/setup.bash" >> ~/.bashrc`
-Or you can run `source ~/dg_ws/install/setup.bash` every time when you open a terminal.
+
+Or you need to run `source ~/dg_ws/install/setup.bash` every time when you open a terminal.
 
 #### Installing dg\_cart\_ros
 1. Clone dg\_cart\_ros repository
