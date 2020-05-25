@@ -38,24 +38,24 @@ DeepGuider Cart for ROS (shortly _dg\_cart\_ros_) is a mobile platform for [Deep
   * Tested on [Ubuntu](https://ubuntu.com/download/alternative-downloads) 18.04 LTS
 
 #### Installing ROS Sensor Nodes
-`sudo apt install ros-melodic-uvc-camera ros-melodic-realsense2-camera ros-melodic-xsens-driver ros-melodic-nmea-navsat-driver ros-melodic-novatel-gps-driver`
+* `sudo apt install ros-melodic-uvc-camera ros-melodic-realsense2-camera ros-melodic-xsens-driver ros-melodic-nmea-navsat-driver ros-melodic-novatel-gps-driver`
 
 #### Making a ROS workspace
 If you don't have a ROS workspace, please make it as the following. You can change its name `dg_ws` to your desired.
-`mkdir -p dg_ws/src && cd dg_ws && catkin_make`
+* `mkdir -p dg_ws/src && cd dg_ws && catkin_make`
 
 If you can run the following to add `dg_ws` to `ROS_PACKAGE_PATH`.
-`echo "source ~/dg_ws/install/setup.bash" >> ~/.bashrc`
+* `echo "source ~/dg_ws/install/setup.bash" >> ~/.bashrc`
 Or you can run `source ~/dg_ws/install/setup.bash` every time when you open a terminal.
 
 #### Installing dg\_cart\_ros
 1. Clone dg\_cart\_ros repository
-  `cd dg_ws`
-  `git clone https://github.com/deepguider/dg_cart_ros.git src`
+  * `cd dg_ws`
+  * `git clone https://github.com/deepguider/dg_cart_ros.git src`
 2. Build and install dg\_cart\_ros
-  `catkin_make install`
+  * `catkin_make install`
 3. Add [udev](https://wiki.debian.org/udev) rules for accessing and mounting sensor devices
-  `sudo cp src/dg_cart_ros/udev.rules /etc/udev/rules.d/99-dg-device.rules`
+  * `sudo cp src/dg_cart_ros/udev.rules /etc/udev/rules.d/99-dg-device.rules`
 
 
 
@@ -64,24 +64,32 @@ Or you can run `source ~/dg_ws/install/setup.bash` every time when you open a te
 Sometimes you want to operate a single sensor without dg\_cart\_ros. The following single-line commands will run a ROS node for each sensor. (Please be aware of running `roscore` before `rosrun` commands.)
 
 * [UVC](https://en.wikipedia.org/wiki/USB_video_device_class) camera ([uvc\_camera](http://wiki.ros.org/uvc_camera))
-  `rosrun uvc_camera uvc_camera_node` (add  `device="/dev/videoLGT0"` to specify a camera device)
+  * `rosrun uvc_camera uvc_camera_node`
+  * Add  `device="/dev/videoLGT0"` to specify a camera device
 * RGB-D camera ([realsense2\_camera](http://wiki.ros.org/realsense2_camera))
-  `roslaunch realsense2_camera rs_camera.launch` (add `serial_no="000000000000"` to specify a camera device)
+  * `roslaunch realsense2_camera rs_camera.launch`
+  * Add `serial_no="000000000000"` to specify a camera device
 * IMU/AHRS ([xsens\_driver](http://wiki.ros.org/xsens_driver))
-  `roslaunch xsens_driver xsens_driver.launch` (add `device:="/dev/ttyIMU0"` to specify a serial port)
+  * `roslaunch xsens_driver xsens_driver.launch`
+  * Add `device:="/dev/ttyIMU0"` to specify a serial port
 * GPS receiver ([nmea\_navsat\_driver](http://wiki.ros.org/nmea_navsat_driver))
-  `roslaunch nmea_navsat_driver nmea_serial_driver.launch` (add `port:="/dev/ttyGPS0" baud="9600"` to specify its serial port)
+  * `roslaunch nmea_navsat_driver nmea_serial_driver.launch`
+  * Add `port:="/dev/ttyGPS0" baud="9600"` to specify its serial port
 * RTK-GPS receiver ([novatel\_gps\_driver](http://wiki.ros.org/novatel_gps_driver))
-  `rosrun novatel_gps_driver novatel_gps_node` (add `device:="/dev/ttyNVT0"` to specify a serial port)
+  * `rosrun novatel_gps_driver novatel_gps_node`
+  * Add `device:="/dev/ttyNVT0"` to specify a serial port
 
 #### Running and Visualizing Sensor Data
-* Running only sensor nodes: `roslaunch dg_cart_ros dg_run_sensor.launch`
-* Running and visualizing sensor data: `roslaunch dg_cart_ros dg_show_sensor.launch`
-* Running, visualizing, and recording sensor data: `roslaunch dg_cart_ros dg_record_sensor.launch`
-  * Add `bag_path:=/your/target/path/` if necessary (default: your `HOME` directory)
+* Running only sensor nodes
+  * `roslaunch dg_cart_ros dg_run_sensor.launch`
+* Running and visualizing sensor data
+  * `roslaunch dg_cart_ros dg_show_sensor.launch`
+* Running, visualizing, and recording sensor data
+  * `roslaunch dg_cart_ros dg_record_sensor.launch`
+  * Add `bag_path:=/your/target/path/` to specify a path to save a bag file (default: your `HOME` directory)
 
 #### Running the DeepGuider Main Module
-`roslaunch dg_cart_ros dg_main_module.launch`
+* `roslaunch dg_cart_ros dg_main_module.launch`
 
 
 
