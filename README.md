@@ -17,7 +17,7 @@ DeepGuider Cart for ROS (shortly _dg\_cart\_ros_) is a mobile platform for [Deep
   * RGB: 1920x1080 / 30 fps / FOV (HxV): 69.4x42.5 deg
   * Depth: 1280x720 / 90 fps / FOV (HxV): 87x58 deg
   * IMU: 3 DoF accleration ($\pm$4 g), 3 DoF gyroscope ($\pm$1000 deg/s)
-* Spherical camera: Ricoh [Theta S](https://theta360.com/)
+* Spherical camera ([UVC](https://en.wikipedia.org/wiki/USB_video_device_class) camera): Ricoh [Theta S](https://theta360.com/)
 * IMU/AHRS: Xsens [MTi-30](https://www.xsens.com/products/mti-10-series) ([xsens\_driver](http://wiki.ros.org/xsens_driver))
   * Gyro bias stability: 18 deg/hr
   * Roll/Pitch accuracy: Static 0.2 deg, dynamic 0.5 deg
@@ -50,14 +50,12 @@ If you can run the following to add `dg_ws` to `ROS_PACKAGE_PATH`.
 Or you need to run `source ~/dg_ws/install/setup.bash` every time when you open a terminal.
 
 #### Installing dg\_cart\_ros
-1. Clone dg\_cart\_ros repository
+* Clone dg\_cart\_ros repository
   * `cd dg_ws`
   * `git clone https://github.com/deepguider/dg_cart_ros.git src`
-
-2. Build and install dg\_cart\_ros
+* Build and install dg\_cart\_ros
   * `catkin_make install`
-
-3. Add [udev](https://wiki.debian.org/udev) rules for accessing and mounting sensor devices
+* Add [udev](https://wiki.debian.org/udev) rules for accessing and mounting sensor devices
   * `sudo cp src/dg_cart_ros/udev.rules /etc/udev/rules.d/99-dg-device.rules`
 
 
