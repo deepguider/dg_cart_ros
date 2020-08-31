@@ -24,7 +24,6 @@
   <!-- XSens MTi-30 -->
   <group ns="xsens_imu">
     <node name="xsens_imu" pkg="xsens_driver" type="mtnode.py" output="screen">
-      <remap from="imu"     to="/" />
       <param name="device"   value="/dev/ttyIMU0" />
       <param name="frame_id" value="/map" />
     </node>
@@ -32,17 +31,21 @@
 
   <!-- Ascen Korea GPS-620 -->
   <group ns="ascen_gps">
-    <node name="ascen_gps" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen">
+    <node name="ascen_raw" pkg="nmea_navsat_driver" type="nmea_topic_serial_reader" output="screen">
       <param name="port"     value="/dev/ttyGPS0" />
       <param name="baud"     value="9600" />
       <param name="frame_id" value="/ascen_gps" />
     </node>
+    <node name="ascen_fix" pkg="nmea_navsat_driver" type="nmea_topic_driver" output="screen" />
   </group>
 
   <!-- Novatel GPS Receiver -->
+  <!--<remap from="/gps"         to="/novatel_gps/gps" />-->
+  <!--<remap from="/novatel"     to="/novatel_gps/novatel" />-->
   <group ns="novatel_gps">
-    <node name="novatel_gps" pkg="novatel_gps_driver" type="novatel_gps_node" output="screen">
-      <param name="device" value="/dev/ttyNVT0" />
-    </node>
+    <include file="$(find novatel_oem7_driver)/config/std_driver_config.xml">
+      <param name="oem7_tty_name" value="/dev/ttyNVT0" />
+      <param name="oem7_tty_baud" value="9600" />
+    </include>
   </group>
 </launch>
