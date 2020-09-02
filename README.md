@@ -50,7 +50,6 @@ If you can run the following to add `dg_ws` to `ROS_PACKAGE_PATH`.
 Or you need to run `source ~/dg_ws/install/setup.bash` every time when you open a terminal.
 
 #### Installing dg\_cart\_ros
-<<<<<<< HEAD
 1. Clone dg\_cart\_ros repository
     * `cd dg_ws`
     * `git clone https://github.com/deepguider/dg_cart_ros.git src/dg_cart_ros`
@@ -58,15 +57,6 @@ Or you need to run `source ~/dg_ws/install/setup.bash` every time when you open 
     * `catkin_make install`
 3. Add [udev](https://wiki.debian.org/udev) rules for accessing and mounting sensor devices
     * `sudo cp src/dg_cart_ros/udev.rules /etc/udev/rules.d/99-dg-device.rules`
-=======
-* Clone dg\_cart\_ros repository
-  * `cd dg_ws`
-  * `git clone https://github.com/deepguider/dg_cart_ros.git src`
-* Build and install dg\_cart\_ros
-  * `catkin_make install`
-* Add [udev](https://wiki.debian.org/udev) rules for accessing and mounting sensor devices
-  * `sudo cp src/dg_cart_ros/udev.rules /etc/udev/rules.d/99-dg-device.rules`
->>>>>>> 61f2f15eeb68762dc8a0ff62603f4a523b5e7755
 
 
 
