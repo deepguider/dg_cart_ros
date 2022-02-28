@@ -53,6 +53,18 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
+      Image Topic: /theta360z1_image
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: theta360z1_image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw 
+      Unreliable: false
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
       Image Topic: /uvc_camera/image_raw
       Max Value: 1
       Median window: 5
