@@ -68,12 +68,19 @@ def record_image_loop(cap, outfile="output.avi", isPanorama=True, Crop=True, pan
     out.release()
     cv2.destroyAllWindows()
 
-def ros_publish_loop(cap):
+def ros_publish_loop(cap, fps=0):
+    if fps == 0:
+        delay = 0  # As soon as possible
+    else:
+        delay = 1 / fps
+    
     ret, frame = cap.read()
     if ret == False:
         return
     w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print "Width :" , w
+    print "Height :" , h
 
     topic_theta360z1 = "theta360z1_image"
 
@@ -84,6 +91,8 @@ def ros_publish_loop(cap):
     while(ret):
         ret, frame = cap.read()
         image_pub.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
+        #cv2.waitKey(delay)  # blocked
+        time.sleep(delay)
     
     cap.release()
     
@@ -98,6 +107,7 @@ def get_capture_of_usbcam(cam=0):
 
 if __name__ == "__main__":
     ## Select Camera
+    fps = 1
     cap = get_capture_of_theta360_z1()
     #cap = get_capture_of_usbcam()
 
@@ -106,4 +116,4 @@ if __name__ == "__main__":
     #record_image_loop(cap, Crop=True, pans=[0])
 
     ## ros publish
-    ros_publish_loop(cap)
+    ros_publish_loop(cap, fps=fps)
