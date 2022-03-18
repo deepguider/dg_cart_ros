@@ -3,7 +3,7 @@
 
   <include file="$(find dg_cart_ros)/launch/dg_run_sensor.launch" />
 
-  <node name="rosbag_record" pkg="rosbag" type="record" args="/theta360z1_image /uvc_camera/image_raw/compressed /realsense/color/image_raw/compressed /realsense/depth/image_rect_raw/compressed -e '/realsense/accel/(.*)' '/realsense/gyro/(.*)' '/xsens_imu/(.*)' '/ascen_gps/(.*)' '/novatel/(.*)' '/gps/(.*)' -o $(arg bag_path)" />
+  <node name="rosbag_record" pkg="rosbag" type="record" args="/andro2linux_gps /theta360z1_image /uvc_camera/image_raw/compressed /realsense/color/image_raw/compressed /realsense/depth/image_rect_raw/compressed -e '/realsense/accel/(.*)' '/realsense/gyro/(.*)' '/xsens_imu/(.*)' '/ascen_gps/(.*)' '/novatel/(.*)' '/gps/(.*)' -o $(arg bag_path)" />
 
   <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find dg_cart_ros)/rviz/dg_show_sensor.rviz" />
 </launch>
