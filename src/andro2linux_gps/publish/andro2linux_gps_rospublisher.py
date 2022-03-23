@@ -54,6 +54,9 @@ def talker():
             gpsmsg.position_covariance_type=NavSatFix.COVARIANCE_TYPE_APPROXIMATED
             gpsmsg.position_covariance=(variance,0,0, 0,variance,0, 0,0,variance)
 
+            print(gpsmsg)
+            print("------------------------")
+
             # publish
             pub.publish(gpsmsg)
             if rospy.is_shutdown():
