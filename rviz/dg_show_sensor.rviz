@@ -65,7 +65,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /door_detect_img/compressed
+      Image Topic: /door_detect_img
       Max Value: 1
       Median window: 5
       Min Value: 0
