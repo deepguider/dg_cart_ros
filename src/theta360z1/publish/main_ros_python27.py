@@ -1,5 +1,7 @@
 #ccsmm@etri.re.kr
 
+from __future__ import print_function
+
 import cv2
 import time
 import numpy as np
@@ -9,6 +11,18 @@ from ipdb import set_trace as bp
 import rospy  # python 2.7
 from sensor_msgs.msg import Image, CompressedImage
 from cv_bridge import CvBridge, CvBridgeError
+
+import argparse
+
+def get_parser():
+    ## Defaults
+    parser = argparse.ArgumentParser(description='ROS publish of ricoh theta 360 z1')
+    parser.add_argument('--fps', type=int, default=1, help="Frame rate of publish")
+    parser.add_argument('--mode', type=str, default="ros", choices=["ros", "demo"], help="Frame rate of publish")
+
+    ## Parsing args to opt
+    opt = parser.parse_args()
+    return opt
 
 def imresize(img, scale_percent=60):
     #scale_percent = 60 # percent of original size
@@ -31,7 +45,13 @@ def crop_image(frame, pano_tool, pans=[270, 0, 90, 180]):
             crop_images = np.hstack([crop_images, crop_image])
     return crop_images
 
-def record_image_loop_old(cap, outfile="output.avi", isPanorama=True, Crop=True, pans=[270, 0, 90, 180]):
+def record_image_loop(cap, outfile="output.avi", isPanorama=True, Crop=True, pans=[270, 0, 90, 180], fps=0):
+    if fps == 0:
+        delay = 0  # As soon as possible
+    else:
+        delay = 1.0 / fps
+
+    delay = int(1.0 + delay*1000.0)
 
     if Crop == True:
         s_time = time.time()
@@ -41,11 +61,13 @@ def record_image_loop_old(cap, outfile="output.avi", isPanorama=True, Crop=True,
     if ret == False:
         return
 
-    w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    h = round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    w = int(round(cap.get(cv2.CAP_PROP_FRAME_WIDTH)))
+    h = int(round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    print("Width : " , w)
+    print("Height : " , h)    
     #fourcc = cv2.VideoWriter_fourcc(*'DIVX')  # Window
     fourcc = cv2.VideoWriter_fourcc(*'X264')  # Linux
-    out = cv2.VideoWriter('output.avi', fourcc, 10.0, (w,h))
+    out = cv2.VideoWriter(outfile, apiPreference=None, fourcc=fourcc, fps=int(fps), frameSize=(w,h))
     recording = False
 
     while(ret):
@@ -58,22 +80,31 @@ def record_image_loop_old(cap, outfile="output.avi", isPanorama=True, Crop=True,
                 cropped = crop_image(frame, pano_tool, pans)
                 cv2.imshow("Crop", cropped)
     
-        key = cv2.waitKey(1)
+        key = cv2.waitKey(delay)
         if key == 27:
             break  # esc to quit
         elif key == ord('r'):
             recording = not recording
+        print("ROS publish : Theta360Z1 at {0:1.3f} fps\r".format(1/(time.time() - s_time)), end='')
     
     cap.release()
     out.release()
     cv2.destroyAllWindows()
 
-def ros_publish_raw_loop(cap):
+def ros_publish_raw_loop(cap, fps=0):
+    if fps == 0:
+        delay = 0  # As soon as possible
+    else:
+        delay = 1.0 / fps
+    
     ret, frame = cap.read()
     if ret == False:
         return
     w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    print("Width : " , w)
+    print("Height : " , h)    
 
     topic_theta360z1 = "theta360z1_raw"
 
@@ -82,11 +113,14 @@ def ros_publish_raw_loop(cap):
     bridge = CvBridge()
 
     while(ret):
+        s_time = time.time()
         ret, frame = cap.read()
         try:
             image_pub.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
         except CvBridgeError as e:
             print(e)
+        time.sleep(delay)
+        print("ROS publish : Theta360Z1 at {0:1.3f} fps\r".format(1/(time.time() - s_time)), end='')
     
     cap.release()
     
@@ -122,13 +156,16 @@ def get_capture_of_usbcam(cam=0):
 
 if __name__ == "__main__":
     ## Select Camera
+    opt = get_parser()
+    fps = opt.fps
     cap = get_capture_of_theta360_z1()
     #cap = get_capture_of_usbcam()
 
     ## Record
-    #record_image_loop(cap, Crop=True, pans=[270, 0, 90, 180])
-    #record_image_loop(cap, Crop=True, pans=[0])
-
-    ## ros publish
-    ros_publish_raw_loop(cap)
-    #ros_publish_compressed_loop(cap)
+    if opt.mode.lower() == "demo":
+        record_image_loop(cap, Crop=True, pans=[270, 0, 90, 180], fps=fps)
+        #record_image_loop(cap, Crop=True, pans=[0], fps=fps)
+    else:
+        ## ros publish
+        ros_publish_raw_loop(cap, fps)
+        #ros_publish_compressed_loop(cap)  # To do : do not work
