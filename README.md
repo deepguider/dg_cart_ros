@@ -38,7 +38,7 @@ DeepGuider Cart for ROS (shortly _dg\_cart\_ros_) is a mobile platform for [Deep
   * Tested on [Ubuntu](https://ubuntu.com/download/alternative-downloads) 18.04 LTS
 
 #### Installing ROS Nodes
-* `sudo apt install ros-melodic-uvc-camera ros-melodic-realsense2-camera ros-melodic-xsens-driver ros-melodic-nmea-navsat-driver ros-melodic-novatel-oem7-driver`
+* `sudo apt install ros-melodic-uvc-camera ros-melodic-realsense2-camera ros-melodic-xsens-driver ros-melodic-nmea-navsat-driver ros-melodic-novatel-oem7-driver ros-melodic-rosserial-arduino`
 
 #### Making a ROS workspace
 If you don't have a ROS workspace, please make it as the following. You can change its name `dg_ws` to your desired.
