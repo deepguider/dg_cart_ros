@@ -13,11 +13,13 @@ pid=`pgrep -f "python2 main_ros_python27.py"`
 if [ -n "${pid}" ];then  # If process is running.
     kill -9 ${pid}
 fi
-gnome-terminal --tab -- python2 main_ros_python27.py --fps 2 --mode ros
+#gnome-terminal --tab -- python2 main_ros_python27.py --fps 2 --mode ros
+#gnome-terminal --tab -- python2 crop360cam_python27.py
+gnome-terminal --tab -- python2 crop360cam_python27.py
 
 pid=`pgrep -f image_view`
 if [ -n "${pid}" ];then  # If process is running.
     kill -9 ${pid}
 fi
-rosrun image_view image_view image:=/theta360z1_raw  # for raw image
-#rosrun image_view image_view image:=/theta360z1_compressed _image_transport:=compressed  # for compressed image
+#rosrun image_view image_view image:=/theta360z1_raw  # for raw image
+rosrun image_view image_view image:=/theta360z1_crop  # for cropped and packed images
