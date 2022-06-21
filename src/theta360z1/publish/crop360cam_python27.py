@@ -57,7 +57,7 @@ def crop_360cam_callback(msg):
         cv2_pano_img = bridge.imgmsg_to_cv2(msg, "bgr8")
     except CvBridgeError, e:
         print(e)
-    cropped = crop_image(cv2_pano_img, pano_tool, pans=[270, 0, 90, 180])
+    cropped = crop_image(cv2_pano_img, pano_tool, pans=[90, 180, 270])  # Left, Front, Right
     crop_pub.publish(bridge.cv2_to_imgmsg(cropped, "bgr8"))
 
 def ros_subscriber_crop():
