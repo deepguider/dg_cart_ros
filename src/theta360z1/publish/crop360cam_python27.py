@@ -32,13 +32,13 @@ def imresize(img, scale_percent=60):
     resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
     return resized
 
-def crop_image(frame, pano_tool, pans=[270, 0, 90, 180]):
+def crop_image(frame, pano_tool, pans=[270, 0, 90, 180], tilt=0.0, fov=90.0, height=480, width=640):
     '''
     pans = [270, 0, 90, 180]  # front, right, left, back
     '''
     crop_images = []
     for pan in pans:
-        crop_image = GetPanTiltImg(pano_tool, frame, pan = pan, tilt = 0.0, fov = 90.0, height = 240, width = 320)
+        crop_image = GetPanTiltImg(pano_tool, frame, pan = pan, tilt = tilt, fov = fov, height = height, width = width)
         if len(crop_images) == 0:
             crop_images = crop_image
         else:
