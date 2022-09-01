@@ -92,11 +92,15 @@ def record_image_loop(cap, outfile="output.avi", isPanorama=True, Crop=True, pan
     cv2.destroyAllWindows()
 
 def ros_publish_raw_loop(cap, fps=0):
-    if fps == 0:
-        delay = 0  # As soon as possible
-    else:
-        delay = 1.0 / fps
-    
+    max_fps = 30
+    fps = int(fps)
+    if fps < 1:
+        fps = 1
+    elif fps > 30:
+        fps = 30
+
+    every_save_frame = int (max_fps / fps)
+
     ret, frame = cap.read()
     if ret == False:
         return
@@ -112,15 +116,25 @@ def ros_publish_raw_loop(cap, fps=0):
     image_pub = rospy.Publisher(topic_theta360z1, Image, queue_size=1)
     bridge = CvBridge()
 
-    while(ret):
+    #rate = rospy.Rate(fps)
+    #while(ret):
+    frame_count = 0
+    while(not rospy.is_shutdown()):
         s_time = time.time()
-        ret, frame = cap.read()
+        ret, frame = cap.read()  # If you do not flush (or read) gstreamer pipeline as soon as possible, You will get the old stream from it. So do not sleep.
+        if ret is True:
+            frame_count = frame_count + 1
+        else:
+            continue
         try:
-            image_pub.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
+            if frame_count % every_save_frame == 0:
+                image_pub.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
         except CvBridgeError as e:
             print(e)
-        time.sleep(delay)
         print("ROS publish : Theta360Z1 at {0:1.3f} fps\r".format(1/(time.time() - s_time)), end='')
+        #rate.sleep()
+        if frame_count > max_fps:
+            frame_count = 0
     
     cap.release()
     
