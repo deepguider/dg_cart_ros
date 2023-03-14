@@ -155,11 +155,11 @@ class PanoramicImageTool(object):
         height, width = shape
         # img = img / 255
         if width > height:
-            xrange = np.array(range(width)).astype(np.int)
-            yrange = (np.array(range(height)) + (width-height)/2).astype(np.int)
+            xrange = np.array(range(width)).astype(np.int64)
+            yrange = (np.array(range(height)) + (width-height)/2).astype(np.int64)
         else:
-            xrange = (np.array(range(width)) + (height - width) / 2).astype(np.int)
-            yrange = np.array(range(height)).astype(np.int)
+            xrange = (np.array(range(width)) + (height - width) / 2).astype(np.int64)
+            yrange = np.array(range(height)).astype(np.int64)
         img = img[:, xrange, :]
         img = img[yrange, :, :]
         return img
@@ -217,7 +217,7 @@ class PanoramicImageTool(object):
         for i in range(3):
             frontal_face_coords[max_indices == i] = sphere_coords[..., i][max_indices == i]
 
-        face_index_map = -1 * np.ones(frontal_face_coords.shape, dtype=np.int)
+        face_index_map = -1 * np.ones(frontal_face_coords.shape, dtype=np.int64)
         face_index_map = set_negative_face_index(face_index_map, frontal_face_coords, sphere_coords[..., 0], 'back')
         face_index_map = set_positive_face_index(face_index_map, frontal_face_coords, sphere_coords[..., 0], 'front')
         face_index_map = set_negative_face_index(face_index_map, frontal_face_coords, sphere_coords[..., 1], 'top')
@@ -274,7 +274,7 @@ class PanoramicImageTool(object):
         height, width, _ = shape
         panoramic_image = np.zeros(shape=shape, dtype=np.uint8)
         sub2ind = cube_coords[..., 1] + cube_coords[..., 0]*height + face_index_map*height*height
-        sub2ind = sub2ind.astype(np.int)
+        sub2ind = sub2ind.astype(np.int64)
         for i in range(3):
             panoramic_image[..., i] = color_map[i, ...].ravel(order='F')[sub2ind]
         return panoramic_image
